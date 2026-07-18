@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,5 +19,8 @@ public class RegisterUserResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private String phone;
+    private String status;
+    private LocalDateTime createdAt;
     private String message;
 }

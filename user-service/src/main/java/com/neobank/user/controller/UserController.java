@@ -3,6 +3,7 @@ package com.neobank.user.controller;
 import com.neobank.user.dto.request.RegisterUserRequest;
 import com.neobank.user.dto.response.RegisterUserResponse;
 import com.neobank.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterUserResponse> registerUser(
-            @RequestBody RegisterUserRequest request){
+            @Valid @RequestBody RegisterUserRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(request));
     }
 }
