@@ -3,6 +3,7 @@ package com.neobank.user.service.impl;
 import com.neobank.user.dto.request.RegisterUserRequest;
 import com.neobank.user.dto.response.RegisterUserResponse;
 import com.neobank.user.entity.User;
+import com.neobank.user.enums.UserRole;
 import com.neobank.user.enums.UserStatus;
 import com.neobank.user.exception.UserAlreadyExistsException;
 import com.neobank.user.repository.UserRepository;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
                 .phone(request.getPhone())
                 .password(encoder.encode(request.getPassword()))
                 .status(UserStatus.ACTIVE)
+                .role(UserRole.CUSTOMER)
                 .build();
 
         User savedUser = userRepository.save(user);
@@ -46,6 +48,7 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .status(user.getStatus().name())
+                .role(user.getRole().name())
                 .createdAt(user.getCreatedAt())
                 .message("User Registered Successfully")
                 .build();

@@ -1,5 +1,6 @@
 package com.neobank.user.entity;
 
+import com.neobank.user.enums.UserRole;
 import com.neobank.user.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,6 +40,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
 
     @CreationTimestamp
     @Column(nullable = false)
