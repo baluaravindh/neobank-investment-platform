@@ -1,10 +1,13 @@
 package com.neobank.user.service.impl;
 
+import com.neobank.user.dto.request.LoginRequest;
 import com.neobank.user.dto.request.RegisterUserRequest;
+import com.neobank.user.dto.response.LoginResponse;
 import com.neobank.user.dto.response.RegisterUserResponse;
 import com.neobank.user.entity.User;
 import com.neobank.user.enums.UserRole;
 import com.neobank.user.enums.UserStatus;
+import com.neobank.user.exception.InvalidCredentialsException;
 import com.neobank.user.exception.UserAlreadyExistsException;
 import com.neobank.user.repository.UserRepository;
 import com.neobank.user.service.UserService;
@@ -38,6 +41,29 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
         return mapToRegisterUserResponse(savedUser);
+    }
+
+    @Override
+    public LoginResponse loginUser(LoginRequest request) {
+        // Find the user by email.
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid email or password"));
+
+        // Compare the raw password from LoginRequest
+        // with the BCrypt hashed password stored in User.
+        if (!encoder.matches(request.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid email or password");
+        }
+
+        return LoginResponse.builder()
+                .userId(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .role(user.getRole().name())
+                .status(user.getStatus().name())
+                .message("User Logged in Successfully")
+                .build();
     }
 
     private RegisterUserResponse mapToRegisterUserResponse(User user) {
