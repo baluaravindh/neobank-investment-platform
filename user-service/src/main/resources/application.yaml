@@ -18,3 +18,7 @@ spring:
   config:
     import:
       - configserver:http://localhost:8888
+
+jwt:
+  secret: NeoBankSecretKey2026NeoBankSecretKey2026
+  expiration: 3600000

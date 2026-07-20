@@ -11,6 +11,7 @@ import com.neobank.user.exception.InvalidCredentialsException;
 import com.neobank.user.exception.UserAlreadyExistsException;
 import com.neobank.user.repository.UserRepository;
 import com.neobank.user.service.UserService;
+import com.neobank.user.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
+    private final JwtUtil jwtUtil;
 
     @Override
     public RegisterUserResponse registerUser(RegisterUserRequest request) {
@@ -55,6 +57,8 @@ public class UserServiceImpl implements UserService {
             throw new InvalidCredentialsException("Invalid email or password");
         }
 
+        String token = jwtUtil.generateToken(user);
+
         return LoginResponse.builder()
                 .userId(user.getId())
                 .firstName(user.getFirstName())
@@ -62,6 +66,7 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .status(user.getStatus().name())
+                .token(token)
                 .message("User Logged in Successfully")
                 .build();
     }
