@@ -28,6 +28,7 @@
       <module name="api-gateway" options="-parameters" />
       <module name="apigateway" options="-parameters" />
       <module name="config-server" options="-parameters" />
+      <module name="customer-service" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
